@@ -1,14 +1,21 @@
-FROM alpine:3.19
+FROM --platform=linux/amd64 golang:1.22-alpine as build-stage
 
-LABEL org.opencontainers.image.authors="FairwindsOps, Inc." \
-      org.opencontainers.image.vendor="FairwindsOps, Inc." \
-      org.opencontainers.image.title="Nova" \
-      org.opencontainers.image.description="Nova is a cli tool to find outdated or deprecated Helm charts running in your Kubernetes cluster." \
-      org.opencontainers.image.documentation="https://nova.docs.fairwinds.com/" \
-      org.opencontainers.image.source="https://github.com/FairwindsOps/nova" \
-      org.opencontainers.image.url="https://github.com/FairwindsOps/nova" \
-      org.opencontainers.image.licenses="Apache License 2.0"
 
-USER nobody
-COPY nova /
-CMD ["/nova"]
+# Set destination for COPY
+WORKDIR /app
+
+# Download Go modules
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY ./ ./
+
+# Build
+RUN CGO_ENABLED=0 GOOS=linux go build  -o /app/nova *.go
+RUN chmod +x /app/nova
+RUN rm -rf /go
+
+FROM alpine:3.20 AS release-stage
+WORKDIR /app
+COPY --from=build-stage /app/nova /app/nova
+RUN chmod +x /app/nova
