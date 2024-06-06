@@ -24,6 +24,7 @@ import (
 	"path"
 	"strconv"
 	"text/tabwriter"
+	"time"
 
 	"github.com/fairwindsops/nova/pkg/containers"
 	"helm.sh/helm/v3/pkg/release"
@@ -95,9 +96,10 @@ type ContainerOutput struct {
 
 // VersionInfo contains both a chart version and an app version
 type VersionInfo struct {
-	Version     string `json:"version"`
-	AppVersion  string `json:"appVersion"`
-	KubeVersion string `json:"kubeVersion"`
+	Version     string    `json:"version"`
+	AppVersion  string    `json:"appVersion"`
+	KubeVersion string    `json:"kubeVersion"`
+	Date        time.Time `json:"date,omitempty"`
 }
 
 // NewOutputWithHelmReleases creates a new output object with the given helm releases pre-populated with the installed version

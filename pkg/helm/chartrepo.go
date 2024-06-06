@@ -201,11 +201,13 @@ func (h *Helm) GetHelmReleasesVersion(helmRepos []*Repo, helmReleases []*release
 					Version:     chart.Chart.Metadata.Version,
 					AppVersion:  chart.Chart.Metadata.AppVersion,
 					KubeVersion: chart.Chart.Metadata.KubeVersion,
+					Date:        chart.Info.FirstDeployed.Time,
 				},
 				Latest: output.VersionInfo{
 					Version:     newest.Version,
 					AppVersion:  newest.AppVersion,
 					KubeVersion: newest.KubeVersion,
+					Date:        newest.Created,
 				},
 				HelmVersion: "v3",
 				Deprecated:  chart.Chart.Metadata.Deprecated,
