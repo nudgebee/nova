@@ -379,12 +379,16 @@ func handleHelm(kubeContext string) (*output.Output, error) {
 	out := output.NewOutputWithHelmReleases(releases)
 	out.IncludeAll = viper.GetBool("include-all")
 
+	repos := viper.GetStringSlice("url")
+
 	if viper.GetBool("poll-artifacthub") {
 		ahClient, err := nova_helm.NewArtifactHubCachedPackageClient(version)
+		helmClient, err := nova_helm.NewHelmRepoHubCachedPackageClient(version)
 		if err != nil {
 			return nil, fmt.Errorf("error setting up artifact hub client: %s", err)
 		}
 		packages, err := ahClient.List()
+		helmRepos, err := helmClient.ListRepo()
 		if err != nil {
 			return nil, fmt.Errorf("error getting artifacthub package repos: %v", err)
 		}
@@ -392,13 +396,17 @@ func handleHelm(kubeContext string) (*output.Output, error) {
 		for _, release := range releases {
 			o := nova_helm.FindBestArtifactHubMatch(release, packages)
 			if o != nil {
+				helmRepo := nova_helm.FindHelmRepoMatch(o, helmRepos)
+				if helmRepo != nil && helmRepo.RepositoryUrl != "" {
+					repos = append(repos, helmRepo.RepositoryUrl)
+					continue
+				}
 				h.OverrideDesiredVersion(o)
 				out.HelmReleases = append(out.HelmReleases, *o)
 			}
 		}
 	}
 	if len(viper.GetStringSlice("url")) > 0 {
-		repos := viper.GetStringSlice("url")
 		helmRepos := nova_helm.NewRepos(repos)
 		outputObjects := h.GetHelmReleasesVersion(helmRepos, releases)
 		out.HelmReleases = append(out.HelmReleases, outputObjects...)

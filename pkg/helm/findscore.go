@@ -42,6 +42,16 @@ func FindBestArtifactHubMatch(clusterRelease *release.Release, ahubPackages []Ar
 	return prepareOutput(clusterRelease, highScorePackage)
 }
 
+func FindHelmRepoMatch(releaseOutput *output.ReleaseOutput, helmPackages []ArtifactHelmPackage) *output.ReleaseOutput {
+	for _, repo := range helmPackages {
+		if repo.Name == releaseOutput.ChartName {
+			releaseOutput.RepositoryUrl = repo.Repository.URL
+			return releaseOutput
+		}
+	}
+	return releaseOutput
+}
+
 func prepareOutput(release *release.Release, pkg ArtifactHubHelmPackage) *output.ReleaseOutput {
 	return &output.ReleaseOutput{
 		ReleaseName: release.Name,
@@ -54,6 +64,7 @@ func prepareOutput(release *release.Release, pkg ArtifactHubHelmPackage) *output
 			Version:     release.Chart.Metadata.Version,
 			AppVersion:  release.Chart.Metadata.AppVersion,
 			KubeVersion: release.Chart.Metadata.KubeVersion,
+			Date:        release.Info.LastDeployed.Time,
 		},
 		Latest: output.VersionInfo{
 			Version:     pkg.Version,

@@ -61,18 +61,19 @@ type HelmAndContainersOutput struct {
 
 // ReleaseOutput represents a release
 type ReleaseOutput struct {
-	ReleaseName string `json:"release"`
-	ChartName   string `json:"chartName"`
-	Namespace   string `json:"namespace,omitempty"`
-	Description string `json:"description"`
-	Home        string `json:"home,omitempty"`
-	Icon        string `json:"icon,omitempty"`
-	Installed   VersionInfo
-	Latest      VersionInfo
-	IsOld       bool   `json:"outdated"`
-	Deprecated  bool   `json:"deprecated"`
-	HelmVersion string `json:"helmVersion"`
-	Overridden  bool   `json:"overridden"`
+	ReleaseName   string `json:"release"`
+	ChartName     string `json:"chartName"`
+	Namespace     string `json:"namespace,omitempty"`
+	Description   string `json:"description"`
+	Home          string `json:"home,omitempty"`
+	Icon          string `json:"icon,omitempty"`
+	Installed     VersionInfo
+	Latest        VersionInfo
+	IsOld         bool   `json:"outdated"`
+	Deprecated    bool   `json:"deprecated"`
+	HelmVersion   string `json:"helmVersion"`
+	Overridden    bool   `json:"overridden"`
+	RepositoryUrl string `json:"repositoryUrl,omitempty"`
 }
 
 // WorkloadOutput represents a workload
@@ -117,6 +118,7 @@ func NewOutputWithHelmReleases(helmReleases []*release.Release) Output {
 			Version:     helmRelease.Chart.Metadata.Version,
 			AppVersion:  helmRelease.Chart.Metadata.AppVersion,
 			KubeVersion: helmRelease.Chart.Metadata.KubeVersion,
+			Date:        helmRelease.Info.FirstDeployed.Time,
 		}
 		release.HelmVersion = "3"
 		output.HelmReleases = append(output.HelmReleases, release)
