@@ -399,7 +399,6 @@ func handleHelm(kubeContext string) (*output.Output, error) {
 				helmRepo := nova_helm.FindHelmRepoMatch(o, helmRepos)
 				if helmRepo != nil && helmRepo.RepositoryUrl != "" {
 					repos = append(repos, helmRepo.RepositoryUrl)
-					continue
 				}
 				h.OverrideDesiredVersion(o)
 				out.HelmReleases = append(out.HelmReleases, *o)
