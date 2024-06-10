@@ -67,10 +67,9 @@ func NewHelmRepoHubCachedPackageClient(version string) (*ArtifactHelmCachedPacka
 	}
 	client := new(http.Client)
 	return &ArtifactHelmCachedPackageClient{
-		APIRoot:   apiRoot,
-		URL:       u,
-		Client:    client,
-		UserAgent: fmt.Sprintf("Fairwinds-Nova/%s ", version),
+		APIRoot: apiRoot,
+		URL:     u,
+		Client:  client,
 	}, nil
 }
 

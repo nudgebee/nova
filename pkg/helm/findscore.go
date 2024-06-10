@@ -43,10 +43,31 @@ func FindBestArtifactHubMatch(clusterRelease *release.Release, ahubPackages []Ar
 }
 
 func FindHelmRepoMatch(releaseOutput *output.ReleaseOutput, helmPackages []ArtifactHelmPackage) *output.ReleaseOutput {
+	var highScore int
+	var preferredRepositories = []string{
+		"bitnami",
+		"fairwinds-stable",
+		"ingress-nginx",
+		"cert-manager",
+	}
+
 	for _, repo := range helmPackages {
+		ret := 0
 		if repo.Name == releaseOutput.ChartName {
-			releaseOutput.RepositoryUrl = repo.Repository.URL
-			return releaseOutput
+			ret++
+			if containsString(preferredRepositories, repo.Repository.Name) {
+				klog.V(10).Infof("+1 score for %s, preffered repo (ahub package repo %s)", repo.Repository.Name, releaseOutput.ChartName)
+				ret++
+			}
+
+			if strings.Contains(releaseOutput.Home, repo.Repository.Name) {
+				ret++
+			}
+
+			if ret > highScore {
+				highScore = ret
+				releaseOutput.RepositoryUrl = repo.Repository.URL
+			}
 		}
 	}
 	return releaseOutput
