@@ -15,7 +15,7 @@ require (
 	github.com/spf13/viper v1.16.0
 	github.com/stretchr/testify v1.9.0
 	gopkg.in/yaml.v2 v2.4.0
-	helm.sh/helm/v3 v3.15.1
+	helm.sh/helm/v3 v3.15.2
 	k8s.io/api v0.30.1
 	k8s.io/apimachinery v0.30.1
 	k8s.io/client-go v0.30.1
@@ -28,8 +28,8 @@ require (
 	github.com/containerd/stargz-snapshotter/estargz v0.14.3 // indirect
 	github.com/cyphar/filepath-securejoin v0.2.4 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/docker/cli v24.0.6+incompatible // indirect
-	github.com/docker/distribution v2.8.2+incompatible // indirect
+	github.com/docker/cli v25.0.1+incompatible // indirect
+	github.com/docker/distribution v2.8.3+incompatible // indirect
 	github.com/docker/docker v26.1.4+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.7.0 // indirect
 	github.com/emicklei/go-restful/v3 v3.11.0 // indirect
@@ -66,7 +66,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
-	github.com/opencontainers/image-spec v1.1.0-rc5 // indirect
+	github.com/opencontainers/image-spec v1.1.0-rc6 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.8 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rubenv/sql-migrate v1.5.2 // indirect
