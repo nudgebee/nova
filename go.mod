@@ -7,7 +7,7 @@ toolchain go1.22.3
 require (
 	github.com/Masterminds/semver/v3 v3.2.1
 	github.com/fairwindsops/controller-utils v0.3.1
-	github.com/google/go-containerregistry v0.19.1
+	github.com/google/go-containerregistry v0.20.2
 	github.com/mcuadros/go-version v0.0.0-20190830083331-035f6764e8d2
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cobra v1.8.1
@@ -28,9 +28,8 @@ require (
 	github.com/containerd/stargz-snapshotter/estargz v0.14.3 // indirect
 	github.com/cyphar/filepath-securejoin v0.2.4 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/docker/cli v25.0.1+incompatible // indirect
+	github.com/docker/cli v27.1.1+incompatible // indirect
 	github.com/docker/distribution v2.8.3+incompatible // indirect
-	github.com/docker/docker v26.1.4+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.7.0 // indirect
 	github.com/emicklei/go-restful/v3 v3.11.0 // indirect
 	github.com/evanphx/json-patch v5.7.0+incompatible // indirect
