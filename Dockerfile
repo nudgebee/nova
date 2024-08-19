@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 golang:1.22-alpine as build-stage
+FROM --platform=linux/amd64 golang:1.23-alpine as build-stage
 
 
 # Set destination for COPY
