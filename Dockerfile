@@ -15,7 +15,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build  -o /app/nova *.go
 RUN chmod +x /app/nova
 RUN rm -rf /go
 
-FROM alpine:3.20 AS release-stage
+FROM alpine:3.21 AS release-stage
 WORKDIR /app
 COPY --from=build-stage /app/nova /app/nova
 RUN chmod +x /app/nova
