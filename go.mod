@@ -4,7 +4,7 @@ go 1.22.0
 toolchain go1.23.5
 
 require (
-	github.com/Masterminds/semver/v3 v3.3.0
+	github.com/Masterminds/semver/v3 v3.3.1
 	github.com/fairwindsops/controller-utils v0.3.1
 	github.com/google/go-containerregistry v0.20.3
 	github.com/mcuadros/go-version v0.0.0-20190830083331-035f6764e8d2
