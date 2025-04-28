@@ -39,6 +39,6 @@ jobs:
         context: .
         platforms: linux/arm64,linux/amd64
         push: true
-        tags: 280501305789.dkr.ecr.us-east-1.amazonaws.com/nova:${{ env.tag }}
+        tags: 864186153326.dkr.ecr.us-east-1.amazonaws.com/nova:${{ env.tag }}
         build-args: |
           BUILDKIT_INLINE_CACHE=1
