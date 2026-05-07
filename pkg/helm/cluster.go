@@ -17,8 +17,8 @@ package helm
 import (
 	"fmt"
 
-	"github.com/fairwindsops/nova/pkg/kube"
-	"github.com/fairwindsops/nova/pkg/output"
+	"github.com/nudgebee/nova/pkg/kube"
+	"github.com/nudgebee/nova/pkg/output"
 	version "github.com/mcuadros/go-version"
 	"helm.sh/helm/v3/pkg/release"
 	helmstorage "helm.sh/helm/v3/pkg/storage"

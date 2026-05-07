@@ -22,7 +22,7 @@ import (
 
 	version "github.com/Masterminds/semver/v3"
 	"github.com/fairwindsops/controller-utils/pkg/controller"
-	"github.com/fairwindsops/nova/pkg/kube"
+	"github.com/nudgebee/nova/pkg/kube"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"

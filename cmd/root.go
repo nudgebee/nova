@@ -27,9 +27,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/fairwindsops/nova/pkg/containers"
-	nova_helm "github.com/fairwindsops/nova/pkg/helm"
-	"github.com/fairwindsops/nova/pkg/output"
+	"github.com/nudgebee/nova/pkg/containers"
+	nova_helm "github.com/nudgebee/nova/pkg/helm"
+	"github.com/nudgebee/nova/pkg/output"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"

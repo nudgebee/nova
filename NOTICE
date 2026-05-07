@@ -1,0 +1,37 @@
+Nova (Nudgebee fork)
+Copyright 2024-2026 Nudgebee, Inc.
+
+This product is a fork of:
+
+  Nova
+  https://github.com/FairwindsOps/nova
+  Copyright 2019-2024 FairwindsOps, Inc.
+  Licensed under the Apache License, Version 2.0.
+
+This product includes software originally developed by FairwindsOps, Inc.
+The original source is licensed under the Apache License, Version 2.0,
+a copy of which is included in the LICENSE file in this repository.
+
+------------------------------------------------------------------------
+Modifications by Nudgebee
+------------------------------------------------------------------------
+
+Significant modifications made by Nudgebee, Inc. since the fork point
+(June 2024) include, but are not limited to:
+
+  * Discovery of the source Helm repository URL for installed releases
+    via ArtifactHub's helm-exporter API (pkg/helm/helm_repo_exporter.go,
+    pkg/helm/findscore.go).
+  * Inclusion of installed and latest chart timestamps in the JSON
+    output (pkg/output/output.go, pkg/helm/chartrepo.go,
+    pkg/helm/findscore.go).
+  * Removal of the upstream "Fairwinds Insights" CLI upsell message.
+  * A multi-stage Dockerfile that builds nova from source.
+  * GitHub Actions workflows for image build and publish.
+  * Dependency upgrades.
+
+A more detailed list of changes is maintained in CHANGELOG.md.
+
+The names "Nova" and "FairwindsOps", and the FairwindsOps logo, are
+trademarks of FairwindsOps, Inc. Nudgebee is not affiliated with,
+endorsed by, or sponsored by FairwindsOps, Inc.
