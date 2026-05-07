@@ -29,7 +29,6 @@ For the original feature documentation see the
 | CLI | Removed the upstream "Want more? Automate Nova for free with Fairwinds Insights!" message that was printed after every command. |
 | Build | Multi-stage `Dockerfile` that builds `nova` from source instead of copying a pre-built binary. |
 | CI | GitHub Actions workflows that build a multi-arch image and push to Nudgebee's container registry. |
-| Module | Module path is `github.com/nudgebee/nova`. |
 | Misc | Removed the upstream CircleCI pipeline, goreleaser config, and VuePress docs site (all of which were tied to FairwindsOps-private infra). |
 | Deps | Many dependency upgrades. See `CHANGELOG.md` and `git log` for the full history. |
 

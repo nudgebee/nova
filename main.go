@@ -15,7 +15,7 @@
 package main
 
 import (
-	"github.com/nudgebee/nova/cmd"
+	"github.com/fairwindsops/nova/cmd"
 )
 
 var (

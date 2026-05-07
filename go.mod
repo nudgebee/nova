@@ -1,4 +1,4 @@
-module github.com/nudgebee/nova
+module github.com/fairwindsops/nova
 
 go 1.25.0
 

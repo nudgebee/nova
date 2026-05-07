@@ -26,7 +26,7 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"github.com/nudgebee/nova/pkg/containers"
+	"github.com/fairwindsops/nova/pkg/containers"
 	"helm.sh/helm/v3/pkg/release"
 
 	"k8s.io/klog/v2"

@@ -27,8 +27,6 @@ for historical context.
 * `Dockerfile` now performs a multi-stage build of `nova` from source
   (`golang:alpine` builder + `alpine` runtime) instead of copying a
   pre-built binary.
-* Module path renamed from `github.com/fairwindsops/nova` to
-  `github.com/nudgebee/nova`.
 * Many dependency upgrades, including Helm, the Kubernetes client libraries,
   controller-runtime, and the Go toolchain. See `git log` for the full list.
 

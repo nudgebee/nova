@@ -17,7 +17,7 @@ package helm
 import (
 	"testing"
 
-	"github.com/nudgebee/nova/pkg/output"
+	"github.com/fairwindsops/nova/pkg/output"
 	"github.com/stretchr/testify/assert"
 	"helm.sh/helm/v3/pkg/chart"
 	"helm.sh/helm/v3/pkg/release"

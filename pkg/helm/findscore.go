@@ -17,7 +17,7 @@ package helm
 import (
 	"strings"
 
-	"github.com/nudgebee/nova/pkg/output"
+	"github.com/fairwindsops/nova/pkg/output"
 	version "github.com/mcuadros/go-version"
 	"helm.sh/helm/v3/pkg/release"
 	"k8s.io/klog/v2"

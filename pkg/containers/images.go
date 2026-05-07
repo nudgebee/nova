@@ -25,7 +25,7 @@ import (
 
 	version "github.com/Masterminds/semver/v3"
 	"github.com/fairwindsops/controller-utils/pkg/controller"
-	"github.com/nudgebee/nova/pkg/kube"
+	"github.com/fairwindsops/nova/pkg/kube"
 	"github.com/google/go-containerregistry/pkg/authn"
 	"github.com/google/go-containerregistry/pkg/name"
 	"github.com/google/go-containerregistry/pkg/v1/remote"
