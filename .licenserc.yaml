@@ -35,6 +35,9 @@ header:
     - 'pkg/helm/cluster_test.go'
     - 'pkg/helm/findscore.go'
     - 'pkg/helm/findscore_test.go'
+    # Adapted by Nudgebee from upstream artifacthub_cached.go; carries dual
+    # FairwindsOps + Nudgebee attribution.
+    - 'pkg/helm/helm_repo_exporter.go'
     - 'pkg/kube/**'
     - 'pkg/output/file.go'
     - 'pkg/output/file_test.go'

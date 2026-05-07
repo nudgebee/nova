@@ -1,4 +1,11 @@
+// Copyright 2020 FairwindsOps Inc
 // Copyright 2024 Nudgebee, Inc.
+//
+// This file was adapted by Nudgebee from pkg/helm/artifacthub_cached.go in
+// FairwindsOps/nova (https://github.com/FairwindsOps/nova) to call ArtifactHub's
+// helm-exporter endpoint and surface the source Helm repository for an
+// installed chart. It shares the package-level cacheFile variable with the
+// original file.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.

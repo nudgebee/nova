@@ -20,8 +20,10 @@ Significant modifications made by Nudgebee, Inc. since the fork point
 (June 2024) include, but are not limited to:
 
   * Discovery of the source Helm repository URL for installed releases
-    via ArtifactHub's helm-exporter API (pkg/helm/helm_repo_exporter.go,
-    pkg/helm/findscore.go).
+    via ArtifactHub's helm-exporter API. Implemented in
+    pkg/helm/helm_repo_exporter.go (adapted from upstream's
+    pkg/helm/artifacthub_cached.go; carries dual FairwindsOps + Nudgebee
+    copyright) and pkg/helm/findscore.go.
   * Inclusion of installed and latest chart timestamps in the JSON
     output (pkg/output/output.go, pkg/helm/chartrepo.go,
     pkg/helm/findscore.go).
