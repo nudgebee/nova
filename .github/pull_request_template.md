@@ -2,7 +2,6 @@
 This PR fixes #
 
 ## Checklist
-* [ ] I have signed the CLA
 * [ ] I have updated/added any relevant documentation
 
 ## Description

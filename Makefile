@@ -29,4 +29,4 @@ clean:
 build-linux:
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(BINARY_NAME) -ldflags "-X main.version=$(VERSION) -X main.commit=$(COMMIT) -s -w" -v
 build-docker: build-linux
-	docker build -t quay.io/fairwinds/$(BINARY_NAME):dev .
+	docker build -t $(BINARY_NAME):dev .

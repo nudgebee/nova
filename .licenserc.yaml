@@ -1,9 +1,9 @@
 header:
   license:
     spdx-id: Apache-2.0
-    copyright-owner: 'FairwindsOps, Inc.'
+    copyright-owner: 'Nudgebee, Inc.'
   content: |
-    // Copyright 2020 FairwindsOps Inc
+    // Copyright 2024 Nudgebee, Inc.
     //
     // Licensed under the Apache License, Version 2.0 (the "License");
     // you may not use this file except in compliance with the License.
@@ -18,6 +18,30 @@ header:
     // limitations under the License.
   paths:
     - '**/*.go'
+  paths-ignore:
+    # Files inherited from upstream FairwindsOps/nova retain their original
+    # FairwindsOps copyright header per Apache 2.0 §4(c). Do not auto-stamp
+    # these with a Nudgebee header.
+    - 'cmd/root.go'
+    - 'cmd/version.go'
+    - 'main.go'
+    - 'pkg/containers/**'
+    - 'pkg/helm/artifacthub.go'
+    - 'pkg/helm/artifacthub_cached.go'
+    - 'pkg/helm/artifacthub_cached_test.go'
+    - 'pkg/helm/artifacthub_test.go'
+    - 'pkg/helm/chartrepo.go'
+    - 'pkg/helm/cluster.go'
+    - 'pkg/helm/cluster_test.go'
+    - 'pkg/helm/findscore.go'
+    - 'pkg/helm/findscore_test.go'
+    # Adapted by Nudgebee from upstream artifacthub_cached.go; carries dual
+    # FairwindsOps + Nudgebee attribution.
+    - 'pkg/helm/helm_repo_exporter.go'
+    - 'pkg/kube/**'
+    - 'pkg/output/file.go'
+    - 'pkg/output/file_test.go'
+    - 'pkg/output/output.go'
   comment: on-failure
 dependency:
   files:
