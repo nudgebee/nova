@@ -47,6 +47,6 @@ available.
 
 ## Supported versions
 
-Only the latest tagged release on the `prod` branch is actively patched.
-Users on older tags should upgrade before reporting; backports are
+Only the latest `v<major>.<minor>.<patch>` release tag on `main` is actively
+patched. Users on older tags should upgrade before reporting; backports are
 case-by-case.

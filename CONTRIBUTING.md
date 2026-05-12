@@ -18,14 +18,14 @@ upstream and the trademark disclaimer.
 
 ## Branch model
 
-```
-main (development) ──PR──▶ prod (production)
-```
+Single-branch: `main` is the only long-lived branch. Releases are cut as
+semver-tagged commits on `main` (e.g. `v0.1.0`).
 
-- All work targets `main`.
-- `prod` is fast-forwarded from `main` for releases.
-- Direct pushes to `main` and `prod` are not accepted; everything goes through
-  a pull request.
+- All work targets `main` through a pull request.
+- Direct pushes to `main` are not accepted.
+- A release is a `v<major>.<minor>.<patch>` git tag pushed against a commit
+  on `main`. The image-build workflow publishes the corresponding
+  `ghcr.io/nudgebee/nova:v<version>` image on tag push.
 
 ## Local development
 
