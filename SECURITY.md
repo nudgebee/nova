@@ -11,11 +11,6 @@ Use **GitHub's private vulnerability reporting**:
 2. Click **Report a vulnerability**.
 3. Fill in the form with details and, if possible, a minimal reproduction.
 
-If for any reason that path is unavailable, contact
-[security@nudgebee.com](mailto:security@nudgebee.com) instead. Encrypt
-sensitive details if you have a key for that address; otherwise plain text is
-acceptable for an initial contact.
-
 ## What to include
 
 - Affected version (commit SHA or release tag).
