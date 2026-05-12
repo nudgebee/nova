@@ -52,19 +52,19 @@ func FindBestArtifactHubMatch(clusterRelease *release.Release, ahubPackages []Ar
 		}
 	}
 
-	var highestStarPackageName *packageKey
+	var highestStarPackage packageKey
 	var highStars int
 	for p, stars := range packageStars {
 		if stars > highStars {
 			highStars = stars
-			highestStarPackageName = &p
+			highestStarPackage = p
 		}
 	}
 
 	var highScore float32
 	var highScorePackage ArtifactHubHelmPackage
 	for k, score := range packageScores {
-		if useStars && highestStarPackageName != nil && k == *highestStarPackageName {
+		if useStars && highStars > 0 && k == highestStarPackage {
 			klog.V(10).Infof("adding a point to the highest star package: %s:%s", k.Repository, k.Name)
 			score++ // Add a point to the highest star package
 		}
