@@ -143,10 +143,10 @@ func (output Output) ToFile(filename string) error {
 		}
 	case ".csv":
 		file, err := os.Create(filename)
-		defer func() { _ = file.Close() }()
 		if err != nil {
 			return err
 		}
+		defer func() { _ = file.Close() }()
 		w := csv.NewWriter(file)
 		defer w.Flush()
 		header := []string{"Release Name", "Chart Name", "Namespace", "HelmVersion", "Installed", "Latest", "Old", "Deprecated"}

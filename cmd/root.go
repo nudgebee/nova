@@ -382,12 +382,18 @@ func handleHelm(kubeContext string) (*output.Output, error) {
 	repos := viper.GetStringSlice("url")
 
 	if viper.GetBool("poll-artifacthub") {
-		ahClient, _ := nova_helm.NewArtifactHubCachedPackageClient(version)
+		ahClient, err := nova_helm.NewArtifactHubCachedPackageClient(version)
+		if err != nil {
+			return nil, fmt.Errorf("error setting up artifact hub client: %v", err)
+		}
 		helmClient, err := nova_helm.NewHelmRepoHubCachedPackageClient(version)
 		if err != nil {
-			return nil, fmt.Errorf("error setting up artifact hub client: %s", err)
+			return nil, fmt.Errorf("error setting up helm repo hub client: %v", err)
 		}
-		packages, _ := ahClient.List()
+		packages, err := ahClient.List()
+		if err != nil {
+			return nil, fmt.Errorf("error listing artifacthub packages: %v", err)
+		}
 		helmRepos, err := helmClient.ListRepo()
 		if err != nil {
 			return nil, fmt.Errorf("error getting artifacthub package repos: %v", err)
