@@ -1,9 +1,10 @@
-name: Docker Build and Push - Prod
+name: Build and publish image
 
 on:
   workflow_dispatch:
   push:
-    branches: ["prod"]
+    branches: ["main"]
+    tags: ["v*"]
 
 permissions:
   contents: read
@@ -12,12 +13,17 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create tag name
-        run: echo "tag=prod-$(date +'%Y-%m-%dT%H-%M-%S')_$GITHUB_SHA" >> $GITHUB_ENV
+      - name: Resolve image tag
+        id: tag
+        run: |
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            echo "value=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=$(date +'%Y-%m-%dT%H-%M-%S')_${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -35,6 +41,6 @@ jobs:
           context: .
           platforms: linux/arm64,linux/amd64
           push: true
-          tags: ghcr.io/nudgebee/nova:${{ env.tag }}
+          tags: ghcr.io/nudgebee/nova:${{ steps.tag.outputs.value }}
           build-args: |
             BUILDKIT_INLINE_CACHE=1
