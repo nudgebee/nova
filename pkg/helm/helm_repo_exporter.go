@@ -35,8 +35,6 @@ const (
 	helmExporterAPIRoot = "https://artifacthub.io/api/v1/helm-exporter"
 )
 
-var helmRepocacheFile = ""
-
 // ArtifactHubCachedPackageClient provides the various pieces to interact with the ArtifactHubCached API.
 type ArtifactHelmCachedPackageClient struct {
 	APIRoot   string

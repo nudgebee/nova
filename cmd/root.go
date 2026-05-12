@@ -170,7 +170,7 @@ func initConfig() {
 		if err != nil {
 			klog.Exitf("failed to download config: %s", err.Error())
 		}
-		defer os.Remove(cfgFile)
+		defer func() { _ = os.Remove(cfgFile) }()
 	}
 
 	// Read config
@@ -206,14 +206,14 @@ func downloadConfig(cfgURL string) (string, error) {
 	if err != nil {
 		return "", &errors.StatusError{}
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	size, err := io.Copy(file, resp.Body)
 	if err != nil {
 		return "", err
 	}
 
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	tmpConfig := file.Name()
 	klog.V(2).Infof("downloaded config file %s with size %d", tmpConfig, size)
@@ -249,7 +249,7 @@ var findCmd = &cobra.Command{
 		kubeContext := viper.GetString("context")
 
 		format := viper.GetString("format")
-		if !(format == output.TableFormat || format == output.JSONFormat) {
+		if format != output.TableFormat && format != output.JSONFormat {
 			klog.Exitf("--format flag value is not valid. Run `nova find --help` to see flag options")
 		}
 
@@ -382,12 +382,12 @@ func handleHelm(kubeContext string) (*output.Output, error) {
 	repos := viper.GetStringSlice("url")
 
 	if viper.GetBool("poll-artifacthub") {
-		ahClient, err := nova_helm.NewArtifactHubCachedPackageClient(version)
+		ahClient, _ := nova_helm.NewArtifactHubCachedPackageClient(version)
 		helmClient, err := nova_helm.NewHelmRepoHubCachedPackageClient(version)
 		if err != nil {
 			return nil, fmt.Errorf("error setting up artifact hub client: %s", err)
 		}
-		packages, err := ahClient.List()
+		packages, _ := ahClient.List()
 		helmRepos, err := helmClient.ListRepo()
 		if err != nil {
 			return nil, fmt.Errorf("error getting artifacthub package repos: %v", err)
