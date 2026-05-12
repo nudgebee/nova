@@ -76,6 +76,7 @@ var ahubPackage = ArtifactHubHelmPackage{
 var helmRelease = &release.Release{
 	Name:      "test",
 	Namespace: "test",
+	Info:      &release.Info{},
 	Chart: &chart.Chart{
 		Metadata: &chart.Metadata{
 			Name:        "test",
