@@ -5,7 +5,8 @@
 > **This is a Nudgebee-maintained fork of [FairwindsOps/nova](https://github.com/FairwindsOps/nova).**
 > Nudgebee is not affiliated with, endorsed by, or sponsored by FairwindsOps, Inc.
 > The names "Nova" and "FairwindsOps" and the original Nova logo are trademarks of
-> FairwindsOps, Inc.; this fork does not redistribute the upstream logo.
+> FairwindsOps, Inc.; this fork does not use the upstream logo in any released
+> build (see [`NOTICE`](NOTICE) for details).
 > The original work is © FairwindsOps, Inc. and is licensed under the
 > Apache License 2.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE).
 

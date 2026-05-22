@@ -79,12 +79,6 @@ func FindBestArtifactHubMatch(clusterRelease *release.Release, ahubPackages []Ar
 
 func FindHelmRepoMatch(releaseOutput *output.ReleaseOutput, helmPackages []ArtifactHelmPackage) *output.ReleaseOutput {
 	var highScore int
-	var preferredRepositories = []string{
-		"bitnami",
-		"fairwinds-stable",
-		"ingress-nginx",
-		"cert-manager",
-	}
 
 	for _, repo := range helmPackages {
 		ret := 0
