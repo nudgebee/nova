@@ -39,7 +39,6 @@ header:
     # FairwindsOps + Nudgebee attribution.
     - 'pkg/helm/helm_repo_exporter.go'
     - 'pkg/kube/**'
-    - 'pkg/output/file.go'
     - 'pkg/output/file_test.go'
     - 'pkg/output/output.go'
   comment: on-failure

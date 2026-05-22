@@ -37,3 +37,8 @@ A more detailed list of changes is maintained in CHANGELOG.md.
 The names "Nova" and "FairwindsOps", and the FairwindsOps logo, are
 trademarks of FairwindsOps, Inc. Nudgebee is not affiliated with,
 endorsed by, or sponsored by FairwindsOps, Inc.
+
+The original Nova logo image (`img/logo.png`), inherited from upstream,
+was removed from the working tree prior to the first Nudgebee release
+and is not used in any released build. The file may still be present
+in earlier git history.

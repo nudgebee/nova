@@ -1,0 +1,12 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/nudgebee/nova/security/advisories/new
+    about: |
+      Please report security issues privately via GitHub Security advisories.
+      Do not open a public issue. See SECURITY.md for details.
+  - name: Upstream bugs (FairwindsOps/nova)
+    url: https://github.com/FairwindsOps/nova/issues
+    about: |
+      For bugs or features that also exist in upstream nova, prefer filing
+      there. Fork-specific issues belong here.

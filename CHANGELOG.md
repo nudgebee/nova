@@ -20,8 +20,9 @@ for historical context.
 * `FindHelmRepoMatch` in `pkg/helm/findscore.go` — scores helm-exporter
   packages against an installed release and attaches the matched repository
   URL to the output.
-* GitHub Actions workflows that build a multi-arch container image and push
-  to AWS ECR (`.github/workflows/build-image-{dev,prod}.yaml`).
+* GitHub Actions workflow that builds a multi-arch container image and
+  publishes it to GitHub Container Registry
+  (`.github/workflows/build-image.yaml` → `ghcr.io/nudgebee/nova`).
 
 ### Changed
 * `Dockerfile` now performs a multi-stage build of `nova` from source

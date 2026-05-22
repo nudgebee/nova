@@ -4,6 +4,9 @@ dist
 # macOS Finder metadata
 .DS_Store
 
+# Local Claude Code config
+.claude/
+
 # Output of the go coverage tool
 *.out
 cover-report.html

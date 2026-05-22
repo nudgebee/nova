@@ -231,7 +231,7 @@ func downloadConfig(cfgURL string) (string, error) {
 var rootCmd = &cobra.Command{
 	Use:   "nova",
 	Short: "nova",
-	Long:  "A fairwinds tool to check for updated chart releases.",
+	Long:  "A tool to check for updated chart releases.",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Error, you must specify a sub-command.")
 		err := cmd.Help()
