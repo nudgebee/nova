@@ -11,7 +11,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /app/nova *.go
 RUN chmod +x /app/nova
 RUN rm -rf /go
 
-FROM alpine:3.22 AS release-stage
+FROM alpine:3.24 AS release-stage
 
 LABEL org.opencontainers.image.title="nova" \
       org.opencontainers.image.description="Find outdated or deprecated Helm charts running in your cluster (Nudgebee fork of FairwindsOps/nova)." \
