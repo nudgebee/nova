@@ -15,6 +15,7 @@
 package helm
 
 import (
+	"context"
 	"fmt"
 	"slices"
 
@@ -31,6 +32,8 @@ import (
 type Helm struct {
 	Kube            *kube.Connection
 	DesiredVersions []DesiredVersion
+	// ReleaseSource is ReleaseSourceSecrets (default) or ReleaseSourceLabels.
+	ReleaseSource string
 }
 
 // DesiredVersion is a specific desired version that overrides the latest from the repository
@@ -64,6 +67,13 @@ func (h *Helm) GetReleaseOutput(namespace string, releaseIgnoreList []string, ch
 
 // GetHelmReleases returns a list of helm releases from the cluster
 func (h *Helm) GetHelmReleases(namespace string, releaseIgnoreList []string, chartIgnoreList []string) ([]*release.Release, error) {
+	if h.ReleaseSource == ReleaseSourceLabels {
+		found, err := GetHelmReleasesFromLabels(context.Background(), h.Kube.Client, namespace)
+		if err != nil {
+			return nil, err
+		}
+		return filterIgnoredReleases(found, releaseIgnoreList, chartIgnoreList), nil
+	}
 	hs := helmdriver.NewSecrets(h.Kube.Client.CoreV1().Secrets(namespace))
 	helmClient := helmstorage.Init(hs)
 	deployed, err := helmClient.ListDeployed()

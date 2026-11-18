@@ -37,8 +37,16 @@ func FindBestArtifactHubMatch(clusterRelease *release.Release, ahubPackages []Ar
 	packageScores := map[packageKey]float32{}
 	packageStars := map[packageKey]int{}
 	var useStars bool
+	fromLabels := clusterRelease.Labels[releaseSourceKey] == ReleaseSourceLabels
 	for _, p := range ahubPackages {
 		if p.Name != clusterRelease.Chart.Metadata.Name {
+			continue
+		}
+		// A release read from labels has no chart metadata (home, sources,
+		// maintainers) to score on, so a same-name chart from an unrelated
+		// repo would often win. Only consider packages that have published
+		// the installed version; if none has, report no match rather than guess.
+		if fromLabels && !packagePublishedVersion(clusterRelease.Chart.Metadata.Version, p) {
 			continue
 		}
 
@@ -190,6 +198,19 @@ func scoreChartSimilarity(release *release.Release, pkg ArtifactHubHelmPackage) 
 func clusterVersionExistsInPackage(clusterVersion string, pkg ArtifactHubHelmPackage) bool {
 	for _, packageVersion := range pkg.AvailableVersions {
 		if packageVersion.Version == clusterVersion {
+			return true
+		}
+	}
+	return false
+}
+
+// packagePublishedVersion reports whether pkg lists v among its versions,
+// ignoring a leading "v" on either side (cert-manager labels "v1.13.1",
+// Artifact Hub lists "1.13.1").
+func packagePublishedVersion(v string, pkg ArtifactHubHelmPackage) bool {
+	want := strings.TrimPrefix(v, "v")
+	for _, packageVersion := range pkg.AvailableVersions {
+		if strings.TrimPrefix(packageVersion.Version, "v") == want {
 			return true
 		}
 	}

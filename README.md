@@ -27,6 +27,7 @@ For the original feature documentation see the
 | Output | `ReleaseOutput` now includes the source Helm `RepositoryUrl` for matched releases. |
 | Output | `VersionInfo` now includes a `Date` field — `FirstDeployed` for the installed version, `Created` for the latest version. |
 | Discovery | New `pkg/helm/helm_repo_exporter.go` calls ArtifactHub's `/helm-exporter` API and (with `FindHelmRepoMatch` in `pkg/helm/findscore.go`) attaches the source repo URL to each release. Optional file cache via `ARTIFACT_HELM_REPO_HUB_CACHE_FILE`. |
+| Discovery | `nova find --release-source labels` reads installed releases from the `helm.sh/chart` (or older `chart`) label and `meta.helm.sh/release-*` annotations on workloads, cronjobs, services and configmaps, so it needs no access to Secrets. It cannot see CRD-only charts or the parent of an umbrella chart (those releases are skipped), and it only matches Artifact Hub packages that published the installed version. The default, `--release-source secrets`, is unchanged. |
 | CLI | Removed the upstream "Want more? Automate Nova for free with Fairwinds Insights!" message that was printed after every command. |
 | Build | Multi-stage `Dockerfile` that builds `nova` from source instead of copying a pre-built binary. |
 | CI | GitHub Actions workflows that build a multi-arch image and push to Nudgebee's container registry. |
@@ -65,6 +66,10 @@ nova find --containers
 
 # Output JSON
 nova find --format json
+
+# Read releases from object labels instead of Helm's release Secrets
+# (for service accounts that may not list Secrets)
+nova find --release-source labels
 ```
 
 Run `nova --help` for the full command surface.

@@ -8,6 +8,13 @@ Versions and dates above this section are from upstream and are preserved
 for historical context.
 
 ### Added
+* `--release-source labels` on `nova find`: discovers installed Helm releases
+  from the `helm.sh/chart` / `chart` labels and `meta.helm.sh/release-*`
+  annotations on deployments, statefulsets, daemonsets, cronjobs, services and
+  configmaps, without reading Secrets. Releases whose objects carry more than
+  one chart label (umbrella charts) are skipped, and Artifact Hub matches are
+  limited to packages that published the installed version
+  (`pkg/helm/labels.go`, `pkg/helm/findscore.go`).
 * `RepositoryUrl` field on `ReleaseOutput` exposing the source Helm repository
   URL for matched releases (`pkg/output/output.go`).
 * `Date` field on `VersionInfo` exposing the installed release's
