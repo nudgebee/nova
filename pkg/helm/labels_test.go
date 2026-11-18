@@ -17,6 +17,7 @@ package helm
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -93,6 +94,37 @@ func TestReleasesFromObjects(t *testing.T) {
 
 	assert.Equal(t, "web2", got[1].Namespace)
 	assert.Equal(t, "4.9.0", got[1].Chart.Metadata.Version)
+}
+
+func TestReleasesFromObjects_FirstDeployedIsEarliestObject(t *testing.T) {
+	older := obj("web", "ingress", "ingress-nginx-4.10.1")
+	older.Created = time.Date(2025, 1, 2, 3, 4, 5, 0, time.UTC)
+	newer := obj("web", "ingress", "ingress-nginx-4.10.1")
+	newer.Created = time.Date(2026, 6, 1, 0, 0, 0, 0, time.UTC)
+	noTime := obj("web", "ingress", "ingress-nginx-4.10.1")
+
+	got := releasesFromObjects([]labelledObject{newer, noTime, older})
+	require.Len(t, got, 1)
+	assert.Equal(t, older.Created, got[0].Info.FirstDeployed.Time)
+	assert.Equal(t, older.Created, got[0].Info.LastDeployed.Time, "no helm write recorded: falls back to first created")
+
+	newer.HelmUpdated = time.Date(2026, 11, 1, 0, 0, 0, 0, time.UTC)
+	got = releasesFromObjects([]labelledObject{newer, older})
+	assert.Equal(t, newer.HelmUpdated, got[0].Info.LastDeployed.Time)
+}
+
+func TestHelmUpdateTime(t *testing.T) {
+	early := metav1.NewTime(time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC))
+	late := metav1.NewTime(time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC))
+	later := metav1.NewTime(time.Date(2026, 6, 1, 0, 0, 0, 0, time.UTC))
+	m := metav1.ObjectMeta{ManagedFields: []metav1.ManagedFieldsEntry{
+		{Manager: "helm", Time: &early},
+		{Manager: "helm", Time: &late},
+		{Manager: "kube-controller-manager", Time: &later},
+		{Manager: "helm"},
+	}}
+	assert.Equal(t, late.Time, helmUpdateTime(m))
+	assert.True(t, helmUpdateTime(metav1.ObjectMeta{}).IsZero())
 }
 
 func TestReleasesFromObjects_ReleaseNamespaceFallsBackToObjectNamespace(t *testing.T) {

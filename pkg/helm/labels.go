@@ -20,10 +20,12 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+	"time"
 
 	"github.com/Masterminds/semver/v3"
 	"helm.sh/helm/v3/pkg/chart"
 	"helm.sh/helm/v3/pkg/release"
+	helmtime "helm.sh/helm/v3/pkg/time"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/klog/v2"
@@ -53,6 +55,8 @@ const (
 // labelledObject is the metadata of one object that carries a helm.sh/chart label.
 type labelledObject struct {
 	Namespace   string
+	Created     time.Time
+	HelmUpdated time.Time // latest managedFields time written by the "helm" manager
 	Labels      map[string]string
 	Annotations map[string]string
 }
@@ -163,7 +167,7 @@ func GetHelmReleasesFromLabels(ctx context.Context, client kubernetes.Interface,
 					break
 				}
 				for _, m := range items {
-					objects = append(objects, labelledObject{Namespace: m.Namespace, Labels: m.Labels, Annotations: m.Annotations})
+					objects = append(objects, labelledObject{Namespace: m.Namespace, Created: m.CreationTimestamp.Time, HelmUpdated: helmUpdateTime(m), Labels: m.Labels, Annotations: m.Annotations})
 				}
 				if cont == "" {
 					break
@@ -186,6 +190,13 @@ type releaseKey struct {
 type releaseLabels struct {
 	charts      map[string]bool
 	appVersions map[string]bool
+	// firstCreated is the earliest creation time among the release's objects,
+	// the closest label-side stand-in for Helm's "first deployed".
+	firstCreated time.Time
+	// lastHelmUpdate is the latest time Helm wrote any of the release's
+	// objects, the closest stand-in for "last deployed". Helm only bumps it on
+	// objects an upgrade actually changed, so it can trail the real upgrade.
+	lastHelmUpdate time.Time
 }
 
 // releasesFromObjects groups labelled objects by release and returns one
@@ -212,6 +223,12 @@ func releasesFromObjects(objects []labelledObject) []*release.Release {
 			groups[k] = g
 		}
 		g.charts[chartValue] = true
+		if !o.Created.IsZero() && (g.firstCreated.IsZero() || o.Created.Before(g.firstCreated)) {
+			g.firstCreated = o.Created
+		}
+		if o.HelmUpdated.After(g.lastHelmUpdate) {
+			g.lastHelmUpdate = o.HelmUpdated
+		}
 		if v := o.Labels[appVersionLabel]; v != "" {
 			g.appVersions[v] = true
 		}
@@ -258,7 +275,11 @@ func releasesFromObjects(objects []labelledObject) []*release.Release {
 				Version:    chartVersion,
 				AppVersion: appVersion,
 			}},
-			Info:   &release.Info{Status: release.StatusDeployed},
+			Info: &release.Info{
+				Status:        release.StatusDeployed,
+				FirstDeployed: helmtime.Time{Time: g.firstCreated},
+				LastDeployed:  helmtime.Time{Time: lastDeployed(g)},
+			},
 			Labels: map[string]string{releaseSourceKey: ReleaseSourceLabels},
 		})
 	}
@@ -295,4 +316,23 @@ func splitChartLabel(value string) (string, string, bool) {
 		}
 	}
 	return "", "", false
+}
+
+func lastDeployed(g *releaseLabels) time.Time {
+	if !g.lastHelmUpdate.IsZero() {
+		return g.lastHelmUpdate
+	}
+	return g.firstCreated
+}
+
+// helmUpdateTime returns the latest managedFields time recorded for the "helm"
+// field manager (written on install and on each upgrade that changes the object).
+func helmUpdateTime(m metav1.ObjectMeta) time.Time {
+	var latest time.Time
+	for _, f := range m.ManagedFields {
+		if f.Manager == "helm" && f.Time != nil && f.Time.After(latest) {
+			latest = f.Time.Time
+		}
+	}
+	return latest
 }
