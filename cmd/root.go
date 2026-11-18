@@ -156,6 +156,12 @@ func init() {
 		klog.Exitf("Failed to bind chart-ignore-list flag: %v", err)
 	}
 
+	findCmd.Flags().String("release-source", nova_helm.ReleaseSourceSecrets, "Where to read installed Helm releases from: secrets (Helm's release Secrets; needs list on secrets) or labels (helm.sh/chart labels on workloads, services and configmaps; no Secrets access, but misses CRD-only and umbrella charts)")
+	err = viper.BindPFlag("release-source", findCmd.Flags().Lookup("release-source"))
+	if err != nil {
+		klog.Exitf("Failed to bind release-source flag: %v", err)
+	}
+
 	klog.InitFlags(nil)
 	_ = flag.Set("alsologtostderr", "true")
 	_ = flag.Set("logtostderr", "true")
@@ -361,6 +367,10 @@ func handleContainers(kubeContext, kubeConfigPath string) (*output.ContainersOut
 
 func handleHelm(kubeContext, kubeConfigPath string) (*output.Output, error) {
 	h := nova_helm.NewHelm(kubeContext, kubeConfigPath)
+	h.ReleaseSource = viper.GetString("release-source")
+	if h.ReleaseSource != nova_helm.ReleaseSourceSecrets && h.ReleaseSource != nova_helm.ReleaseSourceLabels {
+		return nil, fmt.Errorf("--release-source must be %q or %q, got %q", nova_helm.ReleaseSourceSecrets, nova_helm.ReleaseSourceLabels, h.ReleaseSource)
+	}
 	if viper.IsSet("desired-versions") {
 		klog.V(3).Infof("desired-versions is set - attempting to load them")
 		klog.V(8).Infof("raw desired-versions: %v", viper.Get("desired-versions"))
