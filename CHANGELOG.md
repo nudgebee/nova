@@ -15,6 +15,9 @@ for historical context.
   one chart label (umbrella charts) are skipped, and Artifact Hub matches are
   limited to packages that published the installed version
   (`pkg/helm/labels.go`, `pkg/helm/findscore.go`).
+* Label-sourced releases carry dates: first deployed is the earliest creation
+  time of the release's objects, last deployed the latest time the `helm` field
+  manager wrote any of them (falling back to first deployed).
 * `RepositoryUrl` field on `ReleaseOutput` exposing the source Helm repository
   URL for matched releases (`pkg/output/output.go`).
 * `Date` field on `VersionInfo` exposing the installed release's
